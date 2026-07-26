@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lost & Found Board</title>
+  <style>
+    body{font-family:Arial; background:#f0f4f8; padding:20px}
+    .container{max-width:900px; margin:auto; background:white; padding:25px; border-radius:12px}
+    h1{text-align:center; color:#2c3e50}
+    .tabs{display:flex; gap:10px; margin:20px 0}
+    .tab{flex:1; padding:12px; border:none; background:#ecf0f1; cursor:pointer; border-radius:8px; font-weight:bold}
+    .tab.active{background:#3498db; color:white}
+    .form{background:#ecf0f1; padding:20px; border-radius:8px; margin-bottom:20px}
+    input, select, textarea{width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:5px}
+    button{background:#3498db; color:white; border:none; padding:12px 20px; border-radius:5px; cursor:pointer}
+    .item{border:1px solid #ddd; padding:15px; margin:10px 0; border-radius:8px}
+    .lost{border-left:6px solid #e74c3c}
+    .found{border-left:6px solid #27ae60}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Lost & Found Board</h1>
+    
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('lost')">Lost Items</button>
+      <button class="tab" onclick="showTab('found')">Found Items</button>
+    </div>
+
+    <div class="form">
+      <h3>+ Report an Item</h3>
+      <select id="type">
+        <option value="lost">I Lost Something</option>
+        <option value="found">I Found Something</option>
+      </select>
+      <input id="item" placeholder="Item Name - Eg: Black Wallet">
+      <input id="location" placeholder="Location - Eg: Velachery Bus Stand">
+      <input id="contact" placeholder="Contact Number">
+      <textarea id="desc" placeholder="Description"></textarea>
+      <button onclick="addItem()">Post Item</button>
+    </div>
+
+    <div id="lost-list"></div>
+    <div id="found-list" style="display:none"></div>
+  </div>
+
+<script>
+let items = JSON.parse(localStorage.getItem('lostfound')) || [
+  {type:'lost', item:'Black Wallet', location:'Velachery Bus Stand', contact:'9876543210', desc:'Contains Aadhar card'},
+  {type:'found', item:'ID Card', location:'VIT College Gate', contact:'9123456780', desc:'Name: Arjun K'}
+];
+
+function showTab(t){
+  document.getElementById('lost-list').style.display = t=='lost'?'block':'none';
+  document.getElementById('found-list').style.display = t=='found'?'block':'none';
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+function addItem(){
+  let newItem = {
+    type: document.getElementById('type').value,
+    item: document.getElementById('item').value,
+    location: document.getElementById('location').value,
+    contact: document.getElementById('contact').value,
+    desc: document.getElementById('desc').value
+  };
+  items.push(newItem);
+  localStorage.setItem('lostfound', JSON.stringify(items));
+  render();
+}
+
+function render(){
+  let lost = items.filter(i=>i.type=='lost').map(i=>`<div class="item lost"><b>LOST:</b> ${i.item}<br>📍${i.location}<br>📞${i.contact}<br>${i.desc}</div>`).join('');
+  let found = items.filter(i=>i.type=='found').map(i=>`<div class="item found"><b>FOUND:</b> ${i.item}<br>📍${i.location}<br>📞${i.contact}<br>${i.desc}</div>`).join('');
+  document.getElementById('lost-list').innerHTML = lost;
+  document.getElementById('found-list').innerHTML = found;
+}
+render();
+</script>
+</body>
+</html>
