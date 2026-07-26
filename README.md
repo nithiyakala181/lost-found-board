@@ -1,4 +1,4 @@
-# Community Notice Board
+ Community Notice Board
 
 A simple web-based notice board where students and community members can post and filter announcements.
 
@@ -24,8 +24,7 @@ A simple web-based notice board where students and community members can post an
 4. Use the filter buttons to view specific categories
 
  Live Demo
-
-[https://nithiyakala181.github.io/community-notice-board/](https://nithiyakala181.github.io/community-notice-board/)
+ https://nithiyakala181.github.io/lost-found-board/
 
  Author
 
