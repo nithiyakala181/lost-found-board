@@ -1,7 +1,5 @@
  Community Notice Board
 
-A simple web-based notice board where students and community members can post and filter announcements.
-
  Features
 
 - Post New Notices: Add a notice with title, category, description, and contact details
