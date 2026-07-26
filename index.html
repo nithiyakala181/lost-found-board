@@ -1,25 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lost & Found Board</title>
   <style>
-    body{font-family:Arial; background:#f0f4f8; padding:20px}
-    .container{max-width:900px; margin:auto; background:white; padding:25px; border-radius:12px}
-    h1{text-align:center; color:#2c3e50}
-    .tabs{display:flex; gap:10px; margin:20px 0}
-    .tab{flex:1; padding:12px; border:none; background:#ecf0f1; cursor:pointer; border-radius:8px; font-weight:bold}
-    .tab.active{background:#3498db; color:white}
-    .form{background:#ecf0f1; padding:20px; border-radius:8px; margin-bottom:20px}
-    input, select, textarea{width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:5px}
-    button{background:#3498db; color:white; border:none; padding:12px 20px; border-radius:5px; cursor:pointer}
-    .item{border:1px solid #ddd; padding:15px; margin:10px 0; border-radius:8px}
-    .lost{border-left:6px solid #e74c3c}
-    .found{border-left:6px solid #27ae60}
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      margin-bottom: 25px;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      background: #ecf0f1;
+      cursor: pointer;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    
+    .tab:hover {
+      background: #bdc3c7;
+    }
+    
+    .tab.active {
+      background: #3498db;
+      color: white;
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
+    
+    .form {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border: 2px solid #e9ecef;
+    }
+    
+    .form h3 {
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+    
+    button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+    
+    button:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
+    
+    .item {
+      border: 1px solid #ddd;
+      padding: 18px;
+      margin: 12px 0;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .lost {
+      border-left: 6px solid #e74c3c;
+    }
+    
+    .found {
+      border-left: 6px solid #27ae60;
+    }
+    
+    .tag {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      color: white;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    
+    .tag-lost {background: #e74c3c;}
+    .tag-found {background: #27ae60;}
+    
+    .item b {font-size: 18px; color: #2c3e50;}
+    .item p {margin: 5px 0; color: #555;}
   </style>
 </head>
 <body>
   <div class="container">
     <h1>🔍 Lost & Found Board</h1>
+    <p class="subtitle">Help each other find lost items</p>
     
     <div class="tabs">
       <button class="tab active" onclick="showTab('lost')">Lost Items</button>
@@ -35,7 +164,7 @@
       <input id="item" placeholder="Item Name - Eg: Black Wallet">
       <input id="location" placeholder="Location - Eg: Velachery Bus Stand">
       <input id="contact" placeholder="Contact Number">
-      <textarea id="desc" placeholder="Description"></textarea>
+      <textarea id="desc" rows="3" placeholder="Description - Color, Brand etc"></textarea>
       <button onclick="addItem()">Post Item</button>
     </div>
 
@@ -45,8 +174,8 @@
 
 <script>
 let items = JSON.parse(localStorage.getItem('lostfound')) || [
-  {type:'lost', item:'Black Wallet', location:'Velachery Bus Stand', contact:'9876543210', desc:'Contains Aadhar card'},
-  {type:'found', item:'ID Card', location:'VIT College Gate', contact:'9123456780', desc:'Name: Arjun K'}
+  {type:'lost', item:'Black Wallet', location:'Velachery Bus Stand', contact:'9876543210', desc:'Contains Aadhar card and 500 rupees'},
+  {type:'found', item:'College ID Card', location:'VIT College Main Gate', contact:'9123456780', desc:'Name: Arjun K, Dept: CSE'}
 ];
 
 function showTab(t){
@@ -58,6 +187,7 @@ function showTab(t){
 }
 
 function addItem(){
+  if(!document.getElementById('item').value) return alert('Item name required!');
   let newItem = {
     type: document.getElementById('type').value,
     item: document.getElementById('item').value,
@@ -67,14 +197,34 @@ function addItem(){
   };
   items.push(newItem);
   localStorage.setItem('lostfound', JSON.stringify(items));
+  document.getElementById('item').value=''; 
+  document.getElementById('location').value='';
+  document.getElementById('contact').value=''; 
+  document.getElementById('desc').value='';
   render();
 }
 
 function render(){
-  let lost = items.filter(i=>i.type=='lost').map(i=>`<div class="item lost"><b>LOST:</b> ${i.item}<br>📍${i.location}<br>📞${i.contact}<br>${i.desc}</div>`).join('');
-  let found = items.filter(i=>i.type=='found').map(i=>`<div class="item found"><b>FOUND:</b> ${i.item}<br>📍${i.location}<br>📞${i.contact}<br>${i.desc}</div>`).join('');
-  document.getElementById('lost-list').innerHTML = lost;
-  document.getElementById('found-list').innerHTML = found;
+  let lost = items.filter(i=>i.type=='lost').map(i=>`
+    <div class="item lost">
+      <span class="tag tag-lost">LOST</span>
+      <b>${i.item}</b>
+      <p>📍 ${i.location}</p>
+      <p>📞 ${i.contact}</p>
+      <p>${i.desc}</p>
+    </div>`).join('');
+    
+  let found = items.filter(i=>i.type=='found').map(i=>`
+    <div class="item found">
+      <span class="tag tag-found">FOUND</span>
+      <b>${i.item}</b>
+      <p>📍 ${i.location}</p>
+      <p>📞 ${i.contact}</p>
+      <p>${i.desc}</p>
+    </div>`).join('');
+    
+  document.getElementById('lost-list').innerHTML = lost || '<p style="text-align:center; color:#999">No lost items reported</p>';
+  document.getElementById('found-list').innerHTML = found || '<p style="text-align:center; color:#999">No found items reported</p>';
 }
 render();
 </script>
