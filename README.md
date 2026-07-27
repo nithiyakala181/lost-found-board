@@ -21,9 +21,10 @@
 3. Click `Post Notice` to add it to the board
 4. Use the filter buttons to view specific categories
 
- Live Demo
+ Live example
  https://nithiyakala181.github.io/lost-found-board/
-
+ Demo Video
+[Click here to watch demo video](demo.mp4)
  Author
 
 Nithiyakala
